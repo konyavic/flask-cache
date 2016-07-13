@@ -661,7 +661,8 @@ class Cache(object):
 
         try:
             if not args and not kwargs:
-                self._memoize_version(f, reset=True)
+                _timeout = getattr(f, 'cache_timeout', None)
+                self._memoize_version(f, reset=True, timeout=_timeout)
             else:
                 cache_key = f.make_cache_key(f.uncached, *args, **kwargs)
                 self.cache.delete(cache_key)
